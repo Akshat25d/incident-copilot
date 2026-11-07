@@ -60,7 +60,7 @@ def create_app(lifespan=None) -> FastAPI:
     @app.middleware("http")
     async def observe(request: Request, call_next):
         path = request.url.path
-        if path in ("/metrics", "/health"):
+        if path in ("/metrics", "/health") or path.startswith("/admin"):
             return await call_next(request)
         request_id = request.headers.get("x-request-id") or uuid.uuid4().hex[:12]
         request.state.request_id = request_id

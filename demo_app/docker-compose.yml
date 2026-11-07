@@ -24,7 +24,8 @@ services:
     command: uvicorn demo_app.payments:app --host 0.0.0.0 --port 8002
     environment:
       SERVICE_NAME: payments
-      APP_VERSION: v1.0.0
+      APP_VERSION: "${PAYMENTS_VERSION:-v1.0.0}"
+      FAULT_BAD_DEPLOY: "${PAYMENTS_BAD_DEPLOY:-0}"
     ports:
       - "8002:8002"
 
@@ -33,9 +34,9 @@ services:
     command: uvicorn demo_app.orders:app --host 0.0.0.0 --port 8001
     environment:
       SERVICE_NAME: orders
-      APP_VERSION: v1.0.0
+      APP_VERSION: "${ORDERS_VERSION:-v1.0.0}"
       DATABASE_URL: postgresql://shop:shop@postgres:5432/shop
-      PAYMENTS_URL: http://payments:8002
+      PAYMENTS_URL: "${PAYMENTS_URL:-http://payments:8002}"
       DB_POOL_MAX: "5"
     depends_on:
       postgres:
@@ -65,6 +66,49 @@ services:
       RPS: "2"
     depends_on:
       - api-gateway
+
+  alert-sink:
+    <<: *app
+    command: uvicorn demo_app.alert_sink:app --host 0.0.0.0 --port 9000
+    environment:
+      SERVICE_NAME: alert-sink
+    ports:
+      - "9000:9000"
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./observability/alerts.yml:/etc/prometheus/alerts.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    volumes:
+      - ./observability/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    ports:
+      - "9093:9093"
+
+  loki:
+    image: grafana/loki:3.4.2
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+
+  alloy:
+    image: grafana/alloy:latest
+    user: root
+    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+    volumes:
+      - ./observability/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "12345:12345"
+    depends_on:
+      - loki
 
 volumes:
   pgdata:
