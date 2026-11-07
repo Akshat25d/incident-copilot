@@ -13,7 +13,7 @@ tags: [database, slow-query, index, lock, latency]
 - The connection pool runs hot and may be exhausted (see RB-002).
 
 ## How to confirm
-- List sessions: `docker compose exec postgres psql -U shop -d shop -c "select pid, state, wait_event_type, now() - query_start as age, left(query, 60) as query from pg_stat_activity where datname = 'shop' order by age desc;"`
+- List sessions: `docker compose -f demo_app/docker-compose.yml exec postgres psql -U shop -d shop -c "select pid, state, wait_event_type, now() - query_start as age, left(query, 60) as query from pg_stat_activity where datname = 'shop' order by age desc;"`
 - Look for queries that scan a large table without an index.
 
 ## Likely causes

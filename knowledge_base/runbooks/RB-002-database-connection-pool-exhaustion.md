@@ -15,7 +15,7 @@ tags: [database, pool, connections, 503, timeout]
 
 ## How to confirm
 - Search logs: `{service="orders"} |= "database error"`
-- List active sessions: `docker compose exec postgres psql -U shop -d shop -c "select pid, state, now() - query_start as age, left(query, 60) as query from pg_stat_activity where datname = 'shop' order by age desc;"`
+- List active sessions: `docker compose -f demo_app/docker-compose.yml exec postgres psql -U shop -d shop -c "select pid, state, now() - query_start as age, left(query, 60) as query from pg_stat_activity where datname = 'shop' order by age desc;"`
 - Many sessions that stay busy or idle for a long time point to held connections.
 
 ## Likely causes
