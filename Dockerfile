@@ -3,6 +3,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 WORKDIR /app
 ENV PATH="/app/.venv/bin:$PATH"
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-default-groups
 COPY . .
 CMD ["python", "-c", "print('incident-copilot container OK')"]
