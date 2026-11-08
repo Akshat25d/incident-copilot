@@ -1,0 +1,38 @@
+{
+  "id": "G-006",
+  "split": "test",
+  "fault": "db_pool_exhaustion",
+  "difficulty": "hard",
+  "title": "Slow checkout with healthy payments",
+  "scenario": {
+    "type": "scripted",
+    "command": "db_pool_exhaustion"
+  },
+  "alert": "HighErrorRate and HighLatencyP95 on api-gateway",
+  "query": "Checkout is crawling and the gateway keeps handing back 502s. Payments answers quickly, but orders keeps logging database trouble and I'm not sure why.",
+  "root_cause": "The orders database connection pool is exhausted because connections are held and not returned.",
+  "root_cause_service": "orders",
+  "remediation": {
+    "action": "restart",
+    "service": "orders",
+    "detail": "Restart orders to release the held connections."
+  },
+  "expected_docs": [
+    "RB-002"
+  ],
+  "also_relevant": [
+    "SD-001",
+    "SD-003",
+    "PM-003"
+  ],
+  "distractors": [
+    "RB-004",
+    "RB-010",
+    "RB-007"
+  ],
+  "evidence": [
+    "Orders logs show database error entries",
+    "Payments latency and error ratio are normal",
+    "The gateway returns 502 because orders returns 503"
+  ]
+}

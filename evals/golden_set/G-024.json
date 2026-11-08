@@ -1,0 +1,21 @@
+{
+  "id": "G-024",
+  "split": "test",
+  "fault": "oom_crash_loop",
+  "difficulty": "medium",
+  "title": "Payments restarts with exit code 137",
+  "scenario": {"type": "synthetic"},
+  "alert": "ServiceDown flapping on payments",
+  "query": "Payments keeps restarting with exit code 137 after its memory climbed for hours.",
+  "root_cause": "Payments is being killed for running out of memory after a gradual memory leak.",
+  "root_cause_service": "payments",
+  "remediation": {"action": "restart", "service": "payments", "detail": "Restart payments, fix the memory leak and add a memory trend alert."},
+  "expected_docs": ["RB-005", "RB-003"],
+  "also_relevant": ["PM-011"],
+  "distractors": [],
+  "evidence": [
+    "The payments container exit code is 137 and it restarts repeatedly",
+    "Memory for payments climbed for hours before the restarts",
+    "ServiceDown flaps"
+  ]
+}

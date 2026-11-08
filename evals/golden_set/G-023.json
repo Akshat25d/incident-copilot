@@ -1,0 +1,33 @@
+{
+  "id": "G-023",
+  "split": "test",
+  "fault": "dns_intermittent",
+  "difficulty": "hard",
+  "title": "Intermittent name resolution failures",
+  "scenario": {
+    "type": "synthetic"
+  },
+  "alert": "HighErrorRate on orders",
+  "query": "A few checkouts randomly fail because orders can't look up the payments hostname. Payments itself has stayed up the whole time, so what's going on?",
+  "root_cause": "Intermittent name resolution failure between orders and payments.",
+  "root_cause_service": null,
+  "remediation": {
+    "action": "other",
+    "service": null,
+    "detail": "Fix the DNS resolver configuration and restart the resolver."
+  },
+  "expected_docs": [
+    "PM-014"
+  ],
+  "also_relevant": [
+    "RB-006",
+    "RB-005",
+    "SD-001"
+  ],
+  "distractors": [],
+  "evidence": [
+    "Orders logs show intermittent name resolution failures for payments",
+    "Payments is up and its own error ratio is zero",
+    "Failures are intermittent and not tied to a deploy"
+  ]
+}

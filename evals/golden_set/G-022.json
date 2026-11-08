@@ -1,0 +1,21 @@
+{
+  "id": "G-022",
+  "split": "test",
+  "fault": "slow_query",
+  "difficulty": "medium",
+  "title": "Orders slow, long-running Postgres sessions",
+  "scenario": {"type": "synthetic"},
+  "alert": "HighLatencyP95 on orders",
+  "query": "Orders is slow but payments latency is normal, and Postgres sessions have been running for minutes.",
+  "root_cause": "Slow or blocking database queries are holding up orders.",
+  "root_cause_service": "postgres",
+  "remediation": {"action": "other", "service": "postgres", "detail": "Terminate the blocking query and add the missing index."},
+  "expected_docs": ["RB-010"],
+  "also_relevant": ["PM-008", "RB-002"],
+  "distractors": ["RB-004"],
+  "evidence": [
+    "pg_stat_activity shows sessions running for minutes",
+    "Orders latency is high while payments latency is normal",
+    "Connection pool usage is high"
+  ]
+}

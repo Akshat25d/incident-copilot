@@ -1,0 +1,36 @@
+{
+  "id": "G-009",
+  "split": "test",
+  "fault": "memory_leak",
+  "difficulty": "hard",
+  "title": "Recurring memory growth, restarted before",
+  "scenario": {
+    "type": "scripted",
+    "command": "memory_leak"
+  },
+  "alert": "HighMemory on payments",
+  "query": "Payments is eating more and more RAM as the day goes on. We bounced it last week and it went back to normal for a while, and now it's creeping up again. Should I be worried?",
+  "root_cause": "Payments keeps an in-memory cache that grows with every request and is never freed.",
+  "root_cause_service": "payments",
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Restart payments to reclaim memory, then bound the cache."
+  },
+  "expected_docs": [
+    "RB-003"
+  ],
+  "also_relevant": [
+    "PM-005",
+    "PM-011",
+    "PM-006"
+  ],
+  "distractors": [
+    "RB-005"
+  ],
+  "evidence": [
+    "Memory for payments has grown steadily and is near or above the alert threshold",
+    "Payments WARNING receipt cache size entries are present",
+    "An earlier restart only reset memory temporarily"
+  ]
+}

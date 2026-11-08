@@ -1,0 +1,21 @@
+{
+  "id": "G-002",
+  "split": "dev",
+  "fault": "bad_deploy",
+  "difficulty": "medium",
+  "title": "Payments logs show KeyError on some charges",
+  "scenario": {"type": "scripted", "command": "bad_deploy"},
+  "alert": "HighErrorRate on payments",
+  "query": "Some charge requests in payments blow up with a KeyError in the logs, but others succeed. What should we do?",
+  "root_cause": "A regression in the new payments release makes some charge requests raise an unhandled error.",
+  "root_cause_service": "payments",
+  "remediation": {"action": "rollback", "service": "payments", "detail": "Roll payments back to the previous version (v1.0.0)."},
+  "expected_docs": ["RB-001"],
+  "also_relevant": ["PM-001", "SD-004"],
+  "distractors": [],
+  "evidence": [
+    "Payments logs contain unhandled exception entries with KeyError",
+    "Only part of the charge requests fail, so the error ratio is partial",
+    "The version field in payments logs changed to v1.1.0"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "G-001",
+  "split": "dev",
+  "fault": "bad_deploy",
+  "difficulty": "easy",
+  "title": "Payments release breaks part of checkout",
+  "scenario": {"type": "scripted", "command": "bad_deploy"},
+  "alert": "HighErrorRate on payments, orders and api-gateway",
+  "query": "Checkout started failing with 502s right after the payments release went out. Error rate alerts on all three services.",
+  "root_cause": "A regression in the new payments release makes some charge requests raise an unhandled error.",
+  "root_cause_service": "payments",
+  "remediation": {"action": "rollback", "service": "payments", "detail": "Roll payments back to the previous version (v1.0.0)."},
+  "expected_docs": ["RB-001"],
+  "also_relevant": ["PM-001", "SD-005"],
+  "distractors": ["RB-006"],
+  "evidence": [
+    "Deploy log shows payments changed from v1.0.0 to v1.1.0 shortly before the first error",
+    "Payments logs show unhandled exception entries with a KeyError",
+    "Orders logs show payment failed while payments is the only service with stack traces"
+  ]
+}

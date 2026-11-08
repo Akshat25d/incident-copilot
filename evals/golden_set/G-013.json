@@ -1,0 +1,21 @@
+{
+  "id": "G-013",
+  "split": "dev",
+  "fault": "config_error",
+  "difficulty": "easy",
+  "title": "Orders cannot connect to a healthy payments",
+  "scenario": {"type": "scripted", "command": "config_error"},
+  "alert": "HighErrorRate on orders and api-gateway",
+  "query": "Orders cannot connect to payments, connection refused, but payments is up and its health check passes.",
+  "root_cause": "Orders was deployed with a wrong payments endpoint (wrong port), so every payment call is refused.",
+  "root_cause_service": "orders",
+  "remediation": {"action": "rollback", "service": "orders", "detail": "Roll orders back to the previous version and configuration (v1.0.0)."},
+  "expected_docs": ["RB-006"],
+  "also_relevant": ["PM-010", "SD-003"],
+  "distractors": ["RB-005"],
+  "evidence": [
+    "Orders logs show payment failed with a connection refused error",
+    "Payments health endpoint answers and payments logs show no incoming requests",
+    "ServiceDown is not firing"
+  ]
+}

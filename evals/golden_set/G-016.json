@@ -1,0 +1,21 @@
+{
+  "id": "G-016",
+  "split": "dev",
+  "fault": "service_crash",
+  "difficulty": "easy",
+  "title": "ServiceDown alert for payments",
+  "scenario": {"type": "scripted", "command": "service_crash"},
+  "alert": "ServiceDown on payments; HighErrorRate on orders and api-gateway",
+  "query": "ServiceDown alert for payments, the metrics target is not responding.",
+  "root_cause": "The payments container is not running.",
+  "root_cause_service": "payments",
+  "remediation": {"action": "restart", "service": "payments", "detail": "Start or restart the payments service."},
+  "expected_docs": ["RB-005"],
+  "also_relevant": ["PM-011", "SD-004"],
+  "distractors": ["RB-006"],
+  "evidence": [
+    "ServiceDown fires for payments because up is 0",
+    "Orders logs show payment failed with a connection error",
+    "docker compose ps shows payments not running"
+  ]
+}

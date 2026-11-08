@@ -1,0 +1,21 @@
+{
+  "id": "G-004",
+  "split": "dev",
+  "fault": "db_pool_exhaustion",
+  "difficulty": "easy",
+  "title": "Orders returns 503 database unavailable",
+  "scenario": {"type": "scripted", "command": "db_pool_exhaustion"},
+  "alert": "HighErrorRate on orders and api-gateway",
+  "query": "Orders keeps returning 503 database unavailable even though Postgres looks healthy.",
+  "root_cause": "The orders database connection pool is exhausted because connections are held and not returned.",
+  "root_cause_service": "orders",
+  "remediation": {"action": "restart", "service": "orders", "detail": "Restart orders to release the held connections."},
+  "expected_docs": ["RB-002"],
+  "also_relevant": ["PM-003", "PM-004", "SD-003"],
+  "distractors": ["RB-007", "RB-010"],
+  "evidence": [
+    "Orders logs show database error with a timeout waiting for a connection",
+    "Postgres is up and queries are fast",
+    "Payments shows no errors"
+  ]
+}

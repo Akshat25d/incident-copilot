@@ -1,0 +1,36 @@
+{
+  "id": "G-012",
+  "split": "test",
+  "fault": "slow_payments",
+  "difficulty": "hard",
+  "title": "Everything slow, no obvious cause",
+  "scenario": {
+    "type": "scripted",
+    "command": "slow_payments"
+  },
+  "alert": "HighLatencyP95 on payments, orders and api-gateway",
+  "query": "The whole checkout path got sluggish around the same time. Nothing was deployed, the database graphs look normal and nothing is maxing out CPU. What else could it be?",
+  "root_cause": "Payments responds slowly, and the delay propagates to orders and the gateway.",
+  "root_cause_service": "payments",
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Restart payments and investigate why charges are slow."
+  },
+  "expected_docs": [
+    "RB-004"
+  ],
+  "also_relevant": [
+    "PM-007",
+    "SD-001"
+  ],
+  "distractors": [
+    "RB-008",
+    "RB-010"
+  ],
+  "evidence": [
+    "HighLatencyP95 fires on all three services",
+    "Payments is the slowest service in the chain",
+    "Database queries and CPU are normal and the deploy log has no recent entries"
+  ]
+}

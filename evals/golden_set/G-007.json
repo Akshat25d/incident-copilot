@@ -1,0 +1,21 @@
+{
+  "id": "G-007",
+  "split": "dev",
+  "fault": "memory_leak",
+  "difficulty": "easy",
+  "title": "HighMemory alert on payments",
+  "scenario": {"type": "scripted", "command": "memory_leak"},
+  "alert": "HighMemory on payments",
+  "query": "HighMemory alert on payments, resident memory keeps climbing as traffic comes in.",
+  "root_cause": "Payments keeps an in-memory cache that grows with every request and is never freed.",
+  "root_cause_service": "payments",
+  "remediation": {"action": "restart", "service": "payments", "detail": "Restart payments to reclaim memory, then bound the cache."},
+  "expected_docs": ["RB-003"],
+  "also_relevant": ["PM-005", "PM-006", "SD-006"],
+  "distractors": [],
+  "evidence": [
+    "process_resident_memory_bytes for payments rises steadily",
+    "Memory growth tracks request volume",
+    "There are no 5xx errors yet"
+  ]
+}

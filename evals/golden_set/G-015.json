@@ -1,0 +1,36 @@
+{
+  "id": "G-015",
+  "split": "test",
+  "fault": "config_error",
+  "difficulty": "hard",
+  "title": "Down or misconfigured? Orders cannot reach payments",
+  "scenario": {
+    "type": "scripted",
+    "command": "config_error"
+  },
+  "alert": "HighErrorRate on orders and api-gateway",
+  "query": "Orders started throwing connection errors to payments right after we changed some settings. Is payments actually broken, or did we break something on the orders side?",
+  "root_cause": "Orders was deployed with a wrong payments endpoint (wrong port), so every payment call is refused.",
+  "root_cause_service": "orders",
+  "remediation": {
+    "action": "rollback",
+    "service": "orders",
+    "detail": "Roll orders back to the previous version and configuration (v1.0.0)."
+  },
+  "expected_docs": [
+    "RB-006"
+  ],
+  "also_relevant": [
+    "PM-010",
+    "SD-005",
+    "PM-009"
+  ],
+  "distractors": [
+    "RB-005"
+  ],
+  "evidence": [
+    "Deploy log shows an orders config change just before the errors",
+    "Orders logs show connection errors to a payments address that does not answer",
+    "up for payments is 1, so payments itself is not down"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "G-019",
+  "split": "dev",
+  "fault": "disk_full",
+  "difficulty": "medium",
+  "title": "Database writes fail with no space left",
+  "scenario": {"type": "synthetic"},
+  "alert": "HighErrorRate on orders and api-gateway",
+  "query": "Database writes fail with no space left on device and orders returns 503.",
+  "root_cause": "The volume holding database data and logs is out of disk space.",
+  "root_cause_service": "postgres",
+  "remediation": {"action": "other", "service": "postgres", "detail": "Free disk space (prune old logs and images), expand the volume, then restart if needed."},
+  "expected_docs": ["RB-007"],
+  "also_relevant": ["PM-012"],
+  "distractors": ["RB-002"],
+  "evidence": [
+    "Orders logs show a database error mentioning no space left on device",
+    "df shows the volume full",
+    "Payments is unaffected"
+  ]
+}

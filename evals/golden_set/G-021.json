@@ -1,0 +1,21 @@
+{
+  "id": "G-021",
+  "split": "dev",
+  "fault": "tls_expiry",
+  "difficulty": "hard",
+  "title": "External clients fail TLS, internals look fine",
+  "scenario": {"type": "synthetic"},
+  "alert": "No internal alert",
+  "query": "External clients fail the TLS handshake but internal health checks are green and the gateway error rate is flat.",
+  "root_cause": "The TLS certificate on the public edge has expired.",
+  "root_cause_service": "api-gateway",
+  "remediation": {"action": "other", "service": "api-gateway", "detail": "Install a new certificate and reload the proxy."},
+  "expected_docs": ["RB-009"],
+  "also_relevant": ["PM-013"],
+  "distractors": ["RB-005"],
+  "evidence": [
+    "Clients report TLS handshake failures",
+    "Internal health checks and metrics are normal",
+    "The certificate expiry date has passed"
+  ]
+}

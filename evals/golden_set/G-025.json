@@ -1,0 +1,27 @@
+{
+  "id": "G-025",
+  "split": "test",
+  "fault": "unanswerable",
+  "difficulty": "hard",
+  "answerable": false,
+  "title": "Order emails are not arriving",
+  "scenario": {
+    "type": "synthetic"
+  },
+  "alert": "None",
+  "query": "Several customers wrote in saying they never got their order confirmation email. Can you check what's going on?",
+  "root_cause": "Not covered by the knowledge base or the available telemetry.",
+  "root_cause_service": null,
+  "remediation": {
+    "action": "none",
+    "service": null,
+    "detail": "State that the evidence is insufficient and escalate to a human."
+  },
+  "expected_docs": [],
+  "also_relevant": [],
+  "distractors": [],
+  "evidence": [
+    "No alert, error log or metric points to any service",
+    "No runbook or past incident covers email delivery"
+  ]
+}
