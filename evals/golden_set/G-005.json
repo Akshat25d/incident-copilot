@@ -4,18 +4,34 @@
   "fault": "db_pool_exhaustion",
   "difficulty": "medium",
   "title": "Orders requests hang then fail",
-  "scenario": {"type": "scripted", "command": "db_pool_exhaustion"},
+  "scenario": {
+    "type": "scripted",
+    "command": "db_pool_exhaustion"
+  },
   "alert": "HighErrorRate and HighLatencyP95 on orders",
   "query": "Requests to orders hang for about three seconds and then fail. The logs say it timed out waiting for a connection.",
   "root_cause": "The orders database connection pool is exhausted because connections are held and not returned.",
   "root_cause_service": "orders",
-  "remediation": {"action": "restart", "service": "orders", "detail": "Restart orders to release the held connections."},
-  "expected_docs": ["RB-002"],
-  "also_relevant": ["PM-003", "PM-004", "SD-003"],
-  "distractors": ["RB-004"],
+  "remediation": {
+    "action": "restart",
+    "service": "orders",
+    "detail": "Restart orders to release the held connections."
+  },
+  "expected_docs": [
+    "RB-002"
+  ],
+  "also_relevant": [
+    "PM-003",
+    "PM-004",
+    "SD-003"
+  ],
+  "distractors": [
+    "RB-004"
+  ],
   "evidence": [
     "Failing orders requests take about three seconds, matching the pool timeout",
     "Orders logs say it could not get a connection",
     "Payments latency is normal"
-  ]
+  ],
+  "query_paraphrase": "Calls to orders sit there for around three seconds and then fail, and the log says it gave up waiting to get hold of a database connection."
 }

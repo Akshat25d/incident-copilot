@@ -1,0 +1,13 @@
+{
+  "name": "hybrid dw=0.25 boost=1.25",
+  "mode": "hybrid",
+  "config": {
+    "dense_weight": 0.25,
+    "bm25_weight": 1.0,
+    "rrf_k": 60,
+    "runbook_boost": 1.25,
+    "list_depth": 30,
+    "pool": 30
+  },
+  "rule": "highest average MRR over both wordings on the dev split; among configurations within 0.03 of the best, the simplest (no reranker first, then fewest changed settings); remaining ties go to the higher paraphrase-wording MRR (amended after the first dev run, before any test-split evaluation, because the original tie-break was alphabetical)"
+}

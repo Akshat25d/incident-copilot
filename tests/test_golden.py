@@ -55,3 +55,13 @@ def test_unanswerable_incident_is_marked_and_empty():
     unanswerable = [i for i in load_golden() if not i.answerable]
     assert [i.id for i in unanswerable] == ["G-025"]
     assert unanswerable[0].expected_docs == []
+
+
+def test_dev_incidents_have_distinct_paraphrases():
+    incidents = [i for i in load_golden() if i.split == "dev"]
+    for incident in incidents:
+        assert incident.query_paraphrase, incident.id
+        assert incident.query_paraphrase != incident.query, incident.id
+        assert len(incident.query_paraphrase.split()) >= 8, incident.id
+    texts = [i.query_paraphrase for i in incidents]
+    assert len(set(texts)) == len(texts)

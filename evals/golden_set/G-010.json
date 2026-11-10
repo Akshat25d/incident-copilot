@@ -4,18 +4,33 @@
   "fault": "slow_payments",
   "difficulty": "easy",
   "title": "Latency alerts on all three services",
-  "scenario": {"type": "scripted", "command": "slow_payments"},
+  "scenario": {
+    "type": "scripted",
+    "command": "slow_payments"
+  },
   "alert": "HighLatencyP95 on payments, orders and api-gateway",
   "query": "p95 latency alert above one second on api-gateway, orders and payments.",
   "root_cause": "Payments responds slowly, and the delay propagates to orders and the gateway.",
   "root_cause_service": "payments",
-  "remediation": {"action": "restart", "service": "payments", "detail": "Restart payments and investigate why charges are slow."},
-  "expected_docs": ["RB-004"],
-  "also_relevant": ["PM-007", "SD-006"],
-  "distractors": ["RB-008"],
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Restart payments and investigate why charges are slow."
+  },
+  "expected_docs": [
+    "RB-004"
+  ],
+  "also_relevant": [
+    "PM-007",
+    "SD-006"
+  ],
+  "distractors": [
+    "RB-008"
+  ],
   "evidence": [
     "p95 is above one second for payments, orders and api-gateway",
     "Payments p95 is about three seconds and is the slowest in the chain",
     "The error ratio is low"
-  ]
+  ],
+  "query_paraphrase": "We got a slowness page: responses take over a second at the gateway, in orders and in payments."
 }

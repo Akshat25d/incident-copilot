@@ -1,4 +1,7 @@
+import json
 import re
+from dataclasses import dataclass
+from pathlib import Path
 
 from rank_bm25 import BM25Okapi
 
@@ -8,6 +11,22 @@ from rag.rerank import Reranker
 from rag.store import VectorStore
 
 MODES = ("dense", "bm25", "hybrid", "hybrid_rerank")
+SELECTED_PATH = Path(__file__).resolve().parent / "selected_config.json"
+
+
+@dataclass(frozen=True)
+class RetrievalConfig:
+    dense_weight: float = 1.0
+    bm25_weight: float = 1.0
+    rrf_k: int = 60
+    runbook_boost: float = 1.0
+    list_depth: int = 30
+    pool: int = 30
+
+
+def load_selected() -> tuple[str, RetrievalConfig]:
+    data = json.loads(SELECTED_PATH.read_text())
+    return data["mode"], RetrievalConfig(**data["config"])
 
 
 def tokenize(text: str) -> list[str]:
@@ -15,11 +34,14 @@ def tokenize(text: str) -> list[str]:
     return re.findall(r"[a-z0-9]+", spaced.lower())
 
 
-def rrf_fuse(rankings: list[list[str]], k: int = 60) -> list[tuple[str, float]]:
+def rrf_fuse(
+    rankings: list[list[str]], k: int = 60, weights: list[float] | None = None
+) -> list[tuple[str, float]]:
+    weights = weights or [1.0] * len(rankings)
     scores: dict[str, float] = {}
-    for ranking in rankings:
+    for ranking, weight in zip(rankings, weights, strict=True):
         for rank, item in enumerate(ranking, start=1):
-            scores[item] = scores.get(item, 0.0) + 1.0 / (k + rank)
+            scores[item] = scores.get(item, 0.0) + weight / (k + rank)
     return sorted(scores.items(), key=lambda pair: pair[1], reverse=True)
 
 
@@ -69,25 +91,42 @@ class HybridRetriever:
         order = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
         return [(self._ids[i], float(scores[i])) for i in order[:n] if scores[i] > 0]
 
+    def _apply_boost(self, fused: list[tuple[str, float]], boost: float) -> list[tuple[str, float]]:
+        if boost == 1.0:
+            return fused
+        boosted = [
+            (cid, score * boost if self.chunks[cid].doc_type == "runbook" else score)
+            for cid, score in fused
+        ]
+        return sorted(boosted, key=lambda pair: pair[1], reverse=True)
+
     def search(
-        self, query: str, mode: str = "hybrid_rerank", k: int = 5, candidates: int = 20
+        self,
+        query: str,
+        mode: str = "hybrid_rerank",
+        k: int = 5,
+        candidates: int = 20,
+        config: RetrievalConfig | None = None,
     ) -> list[dict]:
         if mode not in MODES:
             raise ValueError(f"unknown mode {mode!r}, expected one of {MODES}")
+        cfg = config or RetrievalConfig(rrf_k=self.rrf_k, list_depth=candidates, pool=candidates)
         if mode == "dense":
             pairs = self._dense_pairs(query, k)
         elif mode == "bm25":
             pairs = self._bm25_pairs(query, k)
         else:
-            dense_ids = [cid for cid, _ in self._dense_pairs(query, candidates)]
-            bm25_ids = [cid for cid, _ in self._bm25_pairs(query, candidates)]
-            fused = rrf_fuse([dense_ids, bm25_ids], self.rrf_k)
+            dense_ids = [cid for cid, _ in self._dense_pairs(query, cfg.list_depth)]
+            bm25_ids = [cid for cid, _ in self._bm25_pairs(query, cfg.list_depth)]
+            weights = [cfg.dense_weight, cfg.bm25_weight]
+            fused = rrf_fuse([dense_ids, bm25_ids], cfg.rrf_k, weights)
+            fused = self._apply_boost(fused, cfg.runbook_boost)
             if mode == "hybrid":
                 pairs = fused[:k]
             else:
                 if self.reranker is None:
                     raise ValueError("hybrid_rerank needs a reranker")
-                top = [cid for cid, _ in fused[:candidates]]
+                top = [cid for cid, _ in fused[: cfg.pool]]
                 texts = [self.chunks[cid].embed_text for cid in top]
                 scores = self.reranker.score(query, texts)
                 ranked = sorted(zip(top, scores, strict=True), key=lambda p: p[1], reverse=True)

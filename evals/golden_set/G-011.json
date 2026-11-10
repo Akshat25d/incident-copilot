@@ -4,18 +4,31 @@
   "fault": "slow_payments",
   "difficulty": "medium",
   "title": "Sluggish checkout with slow downstream warnings",
-  "scenario": {"type": "scripted", "command": "slow_payments"},
+  "scenario": {
+    "type": "scripted",
+    "command": "slow_payments"
+  },
   "alert": "HighLatencyP95 on orders",
   "query": "Orders keeps logging slow downstream call to payments. No errors, checkout just feels sluggish.",
   "root_cause": "Payments responds slowly, and the delay propagates to orders and the gateway.",
   "root_cause_service": "payments",
-  "remediation": {"action": "restart", "service": "payments", "detail": "Restart payments and investigate why charges are slow."},
-  "expected_docs": ["RB-004"],
-  "also_relevant": ["PM-007", "SD-003"],
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Restart payments and investigate why charges are slow."
+  },
+  "expected_docs": [
+    "RB-004"
+  ],
+  "also_relevant": [
+    "PM-007",
+    "SD-003"
+  ],
   "distractors": [],
   "evidence": [
     "Orders logs WARNING slow downstream call with downstream payments",
     "Payments request duration is about three seconds",
     "There are no 5xx errors"
-  ]
+  ],
+  "query_paraphrase": "Orders keeps noting that its call to payments was slow. Nothing is erroring, but checkout feels laggy."
 }

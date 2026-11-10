@@ -4,18 +4,33 @@
   "fault": "service_crash",
   "difficulty": "medium",
   "title": "Orders cannot resolve the payments hostname",
-  "scenario": {"type": "scripted", "command": "service_crash"},
+  "scenario": {
+    "type": "scripted",
+    "command": "service_crash"
+  },
   "alert": "HighErrorRate on orders and api-gateway",
   "query": "The gateway returns 502 and orders can't resolve the payments hostname. The payments container isn't running.",
   "root_cause": "The payments container is not running.",
   "root_cause_service": "payments",
-  "remediation": {"action": "restart", "service": "payments", "detail": "Start or restart the payments service."},
-  "expected_docs": ["RB-005"],
-  "also_relevant": ["PM-014", "SD-001"],
-  "distractors": ["RB-006"],
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Start or restart the payments service."
+  },
+  "expected_docs": [
+    "RB-005"
+  ],
+  "also_relevant": [
+    "PM-014",
+    "SD-001"
+  ],
+  "distractors": [
+    "RB-006"
+  ],
   "evidence": [
     "Orders logs payment failed with a name resolution error",
     "The payments target is down and the container is stopped",
     "Gateway logs show orders call failed"
-  ]
+  ],
+  "query_paraphrase": "The gateway is returning 502s, orders keeps failing to look up the payments host, and the payments container isn't up."
 }

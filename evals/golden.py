@@ -28,6 +28,7 @@ class Incident(BaseModel):
     scenario: Scenario
     alert: str
     query: str
+    query_paraphrase: str | None = None
     root_cause: str
     root_cause_service: str | None = None
     remediation: Remediation

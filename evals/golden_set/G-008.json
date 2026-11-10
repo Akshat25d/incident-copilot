@@ -4,18 +4,33 @@
   "fault": "memory_leak",
   "difficulty": "medium",
   "title": "Payments warns about a growing cache",
-  "scenario": {"type": "scripted", "command": "memory_leak"},
+  "scenario": {
+    "type": "scripted",
+    "command": "memory_leak"
+  },
   "alert": "HighMemory on payments",
   "query": "Payments is logging warnings about a cache getting bigger. No customer errors yet but memory has climbed all morning.",
   "root_cause": "Payments keeps an in-memory cache that grows with every request and is never freed.",
   "root_cause_service": "payments",
-  "remediation": {"action": "restart", "service": "payments", "detail": "Restart payments to reclaim memory, then bound the cache."},
-  "expected_docs": ["RB-003"],
-  "also_relevant": ["PM-005", "PM-006"],
-  "distractors": ["RB-004"],
+  "remediation": {
+    "action": "restart",
+    "service": "payments",
+    "detail": "Restart payments to reclaim memory, then bound the cache."
+  },
+  "expected_docs": [
+    "RB-003"
+  ],
+  "also_relevant": [
+    "PM-005",
+    "PM-006"
+  ],
+  "distractors": [
+    "RB-004"
+  ],
   "evidence": [
     "Payments WARNING receipt cache size entries show increasing approx_mb",
     "Resident memory for payments climbs",
     "No customer-facing errors"
-  ]
+  ],
+  "query_paraphrase": "Payments has started warning that some store of receipts is getting large. Customers are fine so far, but its memory has been rising since the morning."
 }

@@ -4,18 +4,34 @@
   "fault": "config_error",
   "difficulty": "medium",
   "title": "Errors began with an orders deploy",
-  "scenario": {"type": "scripted", "command": "config_error"},
+  "scenario": {
+    "type": "scripted",
+    "command": "config_error"
+  },
   "alert": "HighErrorRate on orders and api-gateway",
   "query": "Errors began the moment orders v1.0.1 was deployed. Payments shows no errors at all and seems to get no traffic.",
   "root_cause": "Orders was deployed with a wrong payments endpoint (wrong port), so every payment call is refused.",
   "root_cause_service": "orders",
-  "remediation": {"action": "rollback", "service": "orders", "detail": "Roll orders back to the previous version and configuration (v1.0.0)."},
-  "expected_docs": ["RB-006"],
-  "also_relevant": ["PM-010", "SD-005"],
-  "distractors": ["RB-001", "RB-005"],
+  "remediation": {
+    "action": "rollback",
+    "service": "orders",
+    "detail": "Roll orders back to the previous version and configuration (v1.0.0)."
+  },
+  "expected_docs": [
+    "RB-006"
+  ],
+  "also_relevant": [
+    "PM-010",
+    "SD-005"
+  ],
+  "distractors": [
+    "RB-001",
+    "RB-005"
+  ],
   "evidence": [
     "Deploy log shows orders changed from v1.0.0 to v1.0.1 right before the errors",
     "Orders logs show connection errors when calling payments",
     "Payments is healthy and receives no traffic"
-  ]
+  ],
+  "query_paraphrase": "Things broke at the exact moment we shipped version 1.0.1 of orders. Payments looks perfectly fine but also seems to be getting no requests."
 }

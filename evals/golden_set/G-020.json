@@ -4,18 +4,29 @@
   "fault": "cpu_saturation",
   "difficulty": "medium",
   "title": "Slow everywhere with one container pinned",
-  "scenario": {"type": "synthetic"},
+  "scenario": {
+    "type": "synthetic"
+  },
   "alert": "HighLatencyP95 on api-gateway and orders",
   "query": "All requests are slower with hardly any errors, and one container sits at 100 percent CPU.",
   "root_cause": "One service is CPU saturated, from a traffic spike or an expensive code path.",
   "root_cause_service": null,
-  "remediation": {"action": "other", "service": null, "detail": "Check for a traffic spike or recent release, roll back if release-related, otherwise profile the service."},
-  "expected_docs": ["RB-008"],
+  "remediation": {
+    "action": "other",
+    "service": null,
+    "detail": "Check for a traffic spike or recent release, roll back if release-related, otherwise profile the service."
+  },
+  "expected_docs": [
+    "RB-008"
+  ],
   "also_relevant": [],
-  "distractors": ["RB-004"],
+  "distractors": [
+    "RB-004"
+  ],
   "evidence": [
     "docker stats shows one container at its CPU limit",
     "Latency is high for all requests with a low error ratio",
     "Request rate is higher than usual or a hot code path is active"
-  ]
+  ],
+  "query_paraphrase": "Everything is slow but barely anything is failing, and one container is running flat out at its CPU limit."
 }

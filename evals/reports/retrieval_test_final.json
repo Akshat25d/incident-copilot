@@ -1,0 +1,713 @@
+{
+  "meta": {
+    "date": "2026-11-10 04:25 UTC",
+    "incidents": 9,
+    "selected": {
+      "name": "hybrid dw=0.25 boost=1.25",
+      "mode": "hybrid",
+      "config": {
+        "dense_weight": 0.25,
+        "bm25_weight": 1.0,
+        "rrf_k": 60,
+        "runbook_boost": 1.25,
+        "list_depth": 30,
+        "pool": 30
+      },
+      "rule": "highest average MRR over both wordings on the dev split; among configurations within 0.03 of the best, the simplest (no reranker first, then fewest changed settings); remaining ties go to the higher paraphrase-wording MRR (amended after the first dev run, before any test-split evaluation, because the original tie-break was alphabetical)"
+    }
+  },
+  "rows": [
+    {
+      "id": "G-003",
+      "fault": "bad_deploy",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "PM-010",
+            "SD-004",
+            "RB-006",
+            "RB-001",
+            "PM-001",
+            "PM-005",
+            "SD-001",
+            "RB-009",
+            "SD-005",
+            "PM-014"
+          ],
+          "first_rank": 4,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 1.0,
+          "mrr": 0.25,
+          "distractor_outranks": false,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "RB-006",
+            "RB-001",
+            "SD-001",
+            "PM-010",
+            "PM-001",
+            "PM-002",
+            "RB-009",
+            "RB-005",
+            "SD-002",
+            "PM-013"
+          ],
+          "first_rank": 2,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.5,
+          "distractor_outranks": false,
+          "latency_s": 2.075
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-001",
+            "RB-006",
+            "RB-009",
+            "PM-010",
+            "SD-004",
+            "SD-001",
+            "PM-001",
+            "PM-005",
+            "RB-005",
+            "PM-004"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.03
+        }
+      }
+    },
+    {
+      "id": "G-006",
+      "fault": "db_pool_exhaustion",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "RB-003",
+            "RB-007",
+            "RB-005",
+            "PM-009",
+            "SD-005",
+            "RB-006",
+            "PM-001",
+            "RB-001",
+            "SD-003",
+            "PM-014"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": true,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "SD-003",
+            "PM-010",
+            "PM-012",
+            "RB-005",
+            "PM-004",
+            "PM-009",
+            "SD-005",
+            "RB-006",
+            "PM-001",
+            "PM-007"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 1.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": false,
+          "latency_s": 2.362
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-003",
+            "RB-007",
+            "RB-005",
+            "RB-006",
+            "RB-001",
+            "SD-003",
+            "PM-009",
+            "PM-010",
+            "PM-012",
+            "PM-001"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": true,
+          "latency_s": 0.047
+        }
+      }
+    },
+    {
+      "id": "G-009",
+      "fault": "memory_leak",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "RB-006",
+            "SD-004",
+            "PM-010",
+            "PM-001",
+            "RB-005",
+            "RB-010",
+            "SD-006",
+            "SD-001",
+            "RB-008",
+            "RB-001"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": true,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "PM-005",
+            "PM-011",
+            "RB-008",
+            "RB-003",
+            "SD-004",
+            "SD-006",
+            "RB-004",
+            "RB-010",
+            "RB-005",
+            "PM-010"
+          ],
+          "first_rank": 4,
+          "top1": 0.0,
+          "top1_acceptable": 1.0,
+          "hit3": 0.0,
+          "recall5": 1.0,
+          "mrr": 0.25,
+          "distractor_outranks": false,
+          "latency_s": 2.474
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-003",
+            "RB-006",
+            "RB-005",
+            "RB-010",
+            "RB-008",
+            "RB-001",
+            "RB-004",
+            "PM-005",
+            "SD-004",
+            "PM-010"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.023
+        }
+      }
+    },
+    {
+      "id": "G-012",
+      "fault": "slow_payments",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "PM-009",
+            "SD-005",
+            "PM-005",
+            "RB-010",
+            "RB-008",
+            "PM-003",
+            "RB-006",
+            "PM-004",
+            "SD-001",
+            "RB-009"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": true,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "PM-004",
+            "PM-007",
+            "RB-004",
+            "RB-008",
+            "PM-008",
+            "SD-005",
+            "PM-009",
+            "RB-010",
+            "PM-003",
+            "PM-012"
+          ],
+          "first_rank": 3,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.3333333333333333,
+          "distractor_outranks": false,
+          "latency_s": 2.512
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-010",
+            "RB-008",
+            "RB-006",
+            "PM-004",
+            "RB-009",
+            "PM-007",
+            "PM-009",
+            "SD-005",
+            "PM-005",
+            "PM-003"
+          ],
+          "first_rank": null,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.0,
+          "distractor_outranks": true,
+          "latency_s": 0.023
+        }
+      }
+    },
+    {
+      "id": "G-015",
+      "fault": "config_error",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "RB-006",
+            "PM-010",
+            "RB-005",
+            "PM-009",
+            "PM-014",
+            "RB-001",
+            "RB-002",
+            "RB-004",
+            "RB-003",
+            "SD-005"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "RB-006",
+            "PM-010",
+            "PM-004",
+            "SD-003",
+            "PM-014",
+            "RB-005",
+            "PM-001",
+            "RB-004",
+            "RB-001",
+            "SD-005"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 2.671
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-006",
+            "PM-010",
+            "RB-005",
+            "PM-014",
+            "RB-001",
+            "PM-009",
+            "RB-002",
+            "RB-004",
+            "RB-003",
+            "PM-001"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.027
+        }
+      }
+    },
+    {
+      "id": "G-018",
+      "fault": "service_crash",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "PM-007",
+            "PM-009",
+            "RB-005",
+            "PM-014",
+            "RB-007",
+            "RB-006",
+            "SD-003",
+            "SD-005",
+            "RB-002",
+            "PM-010"
+          ],
+          "first_rank": 3,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.3333333333333333,
+          "distractor_outranks": false,
+          "latency_s": 0.0
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "PM-014",
+            "PM-010",
+            "PM-001",
+            "SD-003",
+            "PM-009",
+            "SD-005",
+            "PM-004",
+            "RB-006",
+            "RB-005",
+            "SD-004"
+          ],
+          "first_rank": 9,
+          "top1": 0.0,
+          "top1_acceptable": 1.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.1111111111111111,
+          "distractor_outranks": true,
+          "latency_s": 2.065
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "PM-007",
+            "RB-005",
+            "RB-007",
+            "RB-006",
+            "PM-009",
+            "PM-010",
+            "RB-002",
+            "RB-003",
+            "PM-014",
+            "RB-008"
+          ],
+          "first_rank": 2,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.5,
+          "distractor_outranks": false,
+          "latency_s": 0.062
+        }
+      }
+    },
+    {
+      "id": "G-022",
+      "fault": "slow_query",
+      "difficulty": "medium",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "RB-010",
+            "RB-004",
+            "RB-002",
+            "RB-005",
+            "PM-008",
+            "PM-003",
+            "PM-007",
+            "SD-001",
+            "SD-006",
+            "RB-007"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "RB-010",
+            "RB-004",
+            "PM-007",
+            "PM-008",
+            "PM-003",
+            "SD-006",
+            "SD-001",
+            "PM-004",
+            "RB-002",
+            "RB-008"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 2.593
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-010",
+            "RB-004",
+            "RB-008",
+            "RB-002",
+            "PM-008",
+            "RB-005",
+            "PM-003",
+            "PM-007",
+            "RB-007",
+            "RB-006"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": false,
+          "latency_s": 0.016
+        }
+      }
+    },
+    {
+      "id": "G-023",
+      "fault": "dns_intermittent",
+      "difficulty": "hard",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "PM-010",
+            "PM-001",
+            "PM-005",
+            "RB-001",
+            "RB-006",
+            "PM-014",
+            "SD-004",
+            "RB-005",
+            "SD-001",
+            "RB-009"
+          ],
+          "first_rank": 6,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 0.0,
+          "mrr": 0.16666666666666666,
+          "distractor_outranks": null,
+          "latency_s": 0.001
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "PM-010",
+            "PM-014",
+            "PM-001",
+            "PM-004",
+            "PM-009",
+            "SD-003",
+            "PM-007",
+            "RB-005",
+            "PM-008",
+            "PM-005"
+          ],
+          "first_rank": 2,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.5,
+          "distractor_outranks": null,
+          "latency_s": 2.562
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "PM-010",
+            "PM-001",
+            "RB-001",
+            "RB-006",
+            "PM-014",
+            "RB-005",
+            "PM-009",
+            "PM-005",
+            "RB-009",
+            "PM-008"
+          ],
+          "first_rank": 5,
+          "top1": 0.0,
+          "top1_acceptable": 0.0,
+          "hit3": 0.0,
+          "recall5": 1.0,
+          "mrr": 0.2,
+          "distractor_outranks": null,
+          "latency_s": 0.018
+        }
+      }
+    },
+    {
+      "id": "G-024",
+      "fault": "oom_crash_loop",
+      "difficulty": "medium",
+      "modes": {
+        "bm25": {
+          "ranking": [
+            "PM-011",
+            "RB-003",
+            "RB-005",
+            "PM-004",
+            "PM-005",
+            "RB-008",
+            "RB-007",
+            "PM-001",
+            "SD-005",
+            "SD-006"
+          ],
+          "first_rank": 2,
+          "top1": 0.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.5,
+          "distractor_outranks": null,
+          "latency_s": 0.0
+        },
+        "D8 baseline: hybrid_rerank": {
+          "ranking": [
+            "PM-011",
+            "RB-005",
+            "RB-003",
+            "PM-005",
+            "PM-004",
+            "SD-006",
+            "PM-001",
+            "PM-014",
+            "SD-005",
+            "RB-008"
+          ],
+          "first_rank": 2,
+          "top1": 0.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 0.5,
+          "distractor_outranks": null,
+          "latency_s": 2.079
+        },
+        "selected: hybrid dw=0.25 boost=1.25": {
+          "ranking": [
+            "RB-005",
+            "RB-003",
+            "PM-011",
+            "RB-008",
+            "PM-005",
+            "PM-004",
+            "RB-007",
+            "RB-002",
+            "PM-001",
+            "SD-005"
+          ],
+          "first_rank": 1,
+          "top1": 1.0,
+          "top1_acceptable": 1.0,
+          "hit3": 1.0,
+          "recall5": 1.0,
+          "mrr": 1.0,
+          "distractor_outranks": null,
+          "latency_s": 0.021
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "bm25": {
+      "n": 9,
+      "top1": 2,
+      "top1_acceptable": 3,
+      "hit3": 4,
+      "recall5": 0.5555555555555556,
+      "mrr": 0.3611111111111111,
+      "distractor_outranks": 3,
+      "distractor_n": 7,
+      "median_latency_s": 0.001
+    },
+    "D8 baseline: hybrid_rerank": {
+      "n": 9,
+      "top1": 2,
+      "top1_acceptable": 6,
+      "hit3": 6,
+      "recall5": 0.7777777777777778,
+      "mrr": 0.4660493827160494,
+      "distractor_outranks": 1,
+      "distractor_n": 7,
+      "median_latency_s": 2.474
+    },
+    "selected: hybrid dw=0.25 boost=1.25": {
+      "n": 9,
+      "top1": 5,
+      "top1_acceptable": 5,
+      "hit3": 6,
+      "recall5": 0.7777777777777778,
+      "mrr": 0.6333333333333333,
+      "distractor_outranks": 2,
+      "distractor_n": 7,
+      "median_latency_s": 0.023
+    }
+  }
+}
